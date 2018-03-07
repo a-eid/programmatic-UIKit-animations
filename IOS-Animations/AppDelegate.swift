@@ -16,8 +16,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
+    
+    // here you should define you initial view controller.
+    window = UIWindow(frame: UIScreen.main.bounds) // this comes from the stroyboard if you are using one.
+    
+    // first basic animations.
+    //var mainViewController: UIViewController = VC1() // this is the init view controller
+    // second set of animations
+//    mainViewController = VC2()
+    
+    
+    // adding  UINavigationController
+    let navControler = UINavigationController(rootViewController: VC3())
+    window?.rootViewController = navControler // attach the mainVC to the window
+    
+    window?.makeKeyAndVisible()// make it visible
+    
     return true
   }
+  
 
   func applicationWillResignActive(_ application: UIApplication) {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

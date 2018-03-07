@@ -1,10 +1,10 @@
 /*
  to animate multiplier you have deactive and replace the constraint entirely.
-*/
+ */
 
 import UIKit
 
-class ViewController: UIViewController {
+class VC1: UIViewController {
   
   var v1CenterX: NSLayoutConstraint!
   var v1CenterY: NSLayoutConstraint!
@@ -22,10 +22,14 @@ class ViewController: UIViewController {
   var v3Height: NSLayoutConstraint!
   
   var v4CenterX: NSLayoutConstraint!
-  //  var v4CenterY: NSLayoutConstraint!
   var v4Bottom: NSLayoutConstraint!
   var v4Width: NSLayoutConstraint!
   var v4Height: NSLayoutConstraint!
+  
+  var v5CenterX: NSLayoutConstraint!
+  var v5Top: NSLayoutConstraint!
+  var v5Width: NSLayoutConstraint!
+  var v5Height: NSLayoutConstraint!
   
   let v1: UIView = {
     let v = UIView()
@@ -55,6 +59,12 @@ class ViewController: UIViewController {
     return v
   }()
   
+  let v5:  UIView = {
+    let v = UIView()
+    v.translatesAutoresizingMaskIntoConstraints = false
+    v.backgroundColor = #colorLiteral(red: 0, green: 0.4784313725, blue: 1, alpha: 1)
+    return v
+  }()
   
   var button1: UIButton = {
     let b = UIButton()
@@ -83,29 +93,39 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    // this gives the view a background color in case you
+    view.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
     setupViews()
   }
   
   func setupViews(){
+    
     view.addSubview(self.v1)
     addV1Constrants()
+    
     view.addSubview(self.v2)
     addV2Constrants()
+    
     view.addSubview(self.v3)
     addV3Constrants()
     
     view.addSubview(self.v4)
     addV4Constrants()
+    
+    view.addSubview(self.v5)
+    addV5Constrants()
+    
     view.addSubview(button1)
     button1.addTarget(self, action: #selector(self.handleButton1Click), for: .touchUpInside)
     addButton1Constraint()
+    
     view.addSubview(button2)
     addButton2Constraint()
     button2.addTarget(self, action: #selector(self.handleButton2Click), for: .touchUpInside)
     
     view.addSubview(button3)
     addButton3Constraint()
-    button2.addTarget(self, action: #selector(self.handleButton3Click), for: .touchUpInside)
+    button3.addTarget(self, action: #selector(self.handleButton3Click), for: .touchUpInside)
   }
   
   @objc func handleButton1Click(){
@@ -154,6 +174,15 @@ class ViewController: UIViewController {
   }
   
   @objc func handleButton3Click(){
+    print("here")
+    v5Width.isActive = false
+    v5Width = v5.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: v5Width.multiplier == 1 ? 0.2 : 1)
+    v5Width.isActive = true
+    UIView.animate(withDuration: 0.2, delay: 0, options: [], animations: {
+      self.view.layoutIfNeeded()
+    }) { (_) in
+      
+    }
   }
   
   func addV1Constrants(){
@@ -162,7 +191,6 @@ class ViewController: UIViewController {
     
     v1Width = v1.widthAnchor.constraint(equalToConstant: 100)
     v1Height = v1.heightAnchor.constraint(equalToConstant: 100)
-    
     v1CenterX.isActive = true
     v1CenterY.isActive = true
     v1Width.isActive = true
@@ -200,6 +228,15 @@ class ViewController: UIViewController {
     NSLayoutConstraint.activate([v4CenterX,v4Bottom, v4Width, v4Height ])
   }
   
+  func addV5Constrants(){
+    v5CenterX = v5.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0)
+    v5Top = v5.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor, constant: 100)
+    v5Width = v5.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.2)
+    v5Height = v5.heightAnchor.constraint(equalToConstant: 50)
+    
+    NSLayoutConstraint.activate([v5CenterX, v5Top, v5Height, v5Width])
+  }
+  
   func addButton1Constraint(){
     button1.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 100).isActive = true
     button1.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 20).isActive = true
@@ -216,9 +253,9 @@ class ViewController: UIViewController {
   
   func addButton3Constraint(){
     button3.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor, constant: 0).isActive = true
-    button3.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+    button3.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
   }
   
-
+  
 }
 
